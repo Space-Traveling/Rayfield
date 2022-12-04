@@ -1932,7 +1932,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 							TweenService:Create(Keybind.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
 						end
 					else
-						wait(0.25)
+						--wait(0.25)
 						if Held then
 							local Loop; Loop = RunService.Stepped:Connect(function()
 								if not Held then
