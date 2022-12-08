@@ -2797,7 +2797,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 								:Play()
 						end
 					else
-						wait(0.25)
 						if Held then
 							local Loop
 							Loop = RunService.Stepped:Connect(function()
