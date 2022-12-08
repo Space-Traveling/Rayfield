@@ -220,18 +220,14 @@ local function AddDraggingFunctionality(DragPoint, Main)
 		UserInputService.InputChanged:Connect(function(Input)
 			if Input == DragInput and Dragging then
 				local Delta = Input.Position - MousePos
-				TweenService:Create(
-					Main,
-					TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
-					{
-						Position = UDim2.new(
-							FramePos.X.Scale,
-							FramePos.X.Offset + Delta.X,
-							FramePos.Y.Scale,
-							FramePos.Y.Offset + Delta.Y
-						),
-					}
-				):Play()
+				TweenService:Create(Main, TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
+					Position = UDim2.new(
+						FramePos.X.Scale,
+						FramePos.X.Offset + Delta.X,
+						FramePos.Y.Scale,
+						FramePos.Y.Offset + Delta.Y
+					),
+				}):Play()
 			end
 		end)
 	end)
@@ -3340,7 +3336,20 @@ function RayfieldLibrary:CreateWindow(Settings)
 				TweenService:Create(
 					Slider.Main.Progress,
 					TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
-					{
+					{ Size = UDim2.new(0, Current - Slider.Main.AbsolutePosition.X, 1, 0) }
+				):Play()
+				NewVal = math.floor(NewVal / SliderSettings.Increment + 0.5)
+					* (SliderSettings.Increment * 10000000)
+					/ 10000000
+				if not SliderSettings.Suffix then
+					Slider.Main.Information.Text = tostring(NewValue)
+				else
+					Slider.Main.Information.Text = tostring(NewValue) .. " " .. SliderSettings.Suffix
+				end
+
+				--old
+				--[[TweenService
+					:Create(Slider.Main.Progress, TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
 						Size = UDim2.new(
 							0,
 							Slider.Main.AbsoluteSize.X
@@ -3351,9 +3360,9 @@ function RayfieldLibrary:CreateWindow(Settings)
 							1,
 							0
 						),
-					}
-				):Play()
-				Slider.Main.Information.Text = tostring(NewVal) .. " " .. SliderSettings.Suffix
+					})
+					:Play()
+				Slider.Main.Information.Text = tostring(NewVal) .. " " .. SliderSettings.Suffix]]
 				local Success, Response = pcall(function()
 					SliderSettings.Callback(NewVal)
 				end)
