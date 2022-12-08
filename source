@@ -220,18 +220,14 @@ local function AddDraggingFunctionality(DragPoint, Main)
 		UserInputService.InputChanged:Connect(function(Input)
 			if Input == DragInput and Dragging then
 				local Delta = Input.Position - MousePos
-				TweenService:Create(
-					Main,
-					TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
-					{
-						Position = UDim2.new(
-							FramePos.X.Scale,
-							FramePos.X.Offset + Delta.X,
-							FramePos.Y.Scale,
-							FramePos.Y.Offset + Delta.Y
-						),
-					}
-				):Play()
+				TweenService:Create(Main, TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
+					Position = UDim2.new(
+						FramePos.X.Scale,
+						FramePos.X.Offset + Delta.X,
+						FramePos.Y.Scale,
+						FramePos.Y.Offset + Delta.Y
+					),
+				}):Play()
 			end
 		end)
 	end)
@@ -3192,16 +3188,20 @@ function RayfieldLibrary:CreateWindow(Settings)
 			TweenService:Create(Slider.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), { TextTransparency = 0 })
 				:Play()
 
-			Slider.Main.Progress.Size = UDim2.new(
-				0,
-				Slider.Main.AbsoluteSize.X
-								* ((SliderSettings.CurrentValue + SliderSettings.Range[1]) / (SliderSettings.Range[2] - SliderSettings.Range[1]))
-							> 5
-						and Slider.Main.AbsoluteSize.X * ((SliderSettings.CurrentValue + SliderSettings.Range[1]) / (SliderSettings.Range[2] - SliderSettings.Range[1]))
-					or 5,
-				1,
-				0
-			)
+			local Start_Pixels = Slider.Main.AbsolutePosition.X
+			local End_Pixels = Slider.Main.AbsolutePosition.X + Slider.Main.AbsoluteSize.X
+
+			local sliderSize = End_Pixels
+				- Start_Pixels
+					* ((SliderSettings.CurrentValue + SliderSettings.Range[1]) / (SliderSettings.Range[2] - SliderSettings.Range[1]))
+					
+			if sliderSize < 5 then
+				sliderSize = 5
+			elseif sliderSize > End_Pixels - 5 then
+				sliderSize = End_Pixels - 5
+			end
+
+			Slider.Main.Progress.Size = UDim2.new(0, sliderSize, 1, 0)
 
 			if not SliderSettings.Suffix then
 				Slider.Main.Information.Text = tostring(SliderSettings.CurrentValue)
@@ -3337,10 +3337,8 @@ function RayfieldLibrary:CreateWindow(Settings)
 			end)
 
 			function SliderSettings:Set(NewVal)
-				TweenService:Create(
-					Slider.Main.Progress,
-					TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
-					{
+				TweenService
+					:Create(Slider.Main.Progress, TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
 						Size = UDim2.new(
 							0,
 							Slider.Main.AbsoluteSize.X
@@ -3351,8 +3349,8 @@ function RayfieldLibrary:CreateWindow(Settings)
 							1,
 							0
 						),
-					}
-				):Play()
+					})
+					:Play()
 				Slider.Main.Information.Text = tostring(NewVal) .. " " .. SliderSettings.Suffix
 				local Success, Response = pcall(function()
 					SliderSettings.Callback(NewVal)
