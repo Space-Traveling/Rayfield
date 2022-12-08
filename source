@@ -3342,7 +3342,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 				sliderSize = (End_Pixels - Start_Pixels) --Full bar size in px
 					* (
-						(NewVal + SliderSettings.Range[1])
+						NewVal
 						/ (SliderSettings.Range[2] - SliderSettings.Range[1])
 					)
 
