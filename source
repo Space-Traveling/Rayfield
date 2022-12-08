@@ -3339,12 +3339,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 			end)
 
 			function SliderSettings:Set(NewVal)
-				local Start_Pixels = Slider.Main.AbsolutePosition.X
-				local End_Pixels = Slider.Main.AbsolutePosition.X + Slider.Main.AbsoluteSize.X
 
-				local sliderSize = (End_Pixels - Start_Pixels) --Full bar size in px
+				sliderSize = (End_Pixels - Start_Pixels) --Full bar size in px
 					* (
-						(SliderSettings.CurrentValue + SliderSettings.Range[1])
+						(NewVal + SliderSettings.Range[1])
 						/ (SliderSettings.Range[2] - SliderSettings.Range[1])
 					)
 
@@ -3363,9 +3361,9 @@ function RayfieldLibrary:CreateWindow(Settings)
 					:Play()
 
 				if not SliderSettings.Suffix then
-					Slider.Main.Information.Text = tostring(SliderSettings.CurrentValue)
+					Slider.Main.Information.Text = tostring(NewVal)
 				else
-					Slider.Main.Information.Text = tostring(SliderSettings.CurrentValue) .. " " .. SliderSettings.Suffix
+					Slider.Main.Information.Text = tostring(NewVal) .. " " .. SliderSettings.Suffix
 				end
 
 				local Success, Response = pcall(function()
