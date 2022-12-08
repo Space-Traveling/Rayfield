@@ -3352,8 +3352,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 					sliderSize = (End_Pixels - Start_Pixels)
 				end
 
-				Slider.Main.Progress.Size = UDim2.new(0, sliderSize, 1, 0)
-
 				TweenService
 					:Create(Slider.Main.Progress, TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
 						Size = UDim2.new(0, sliderSize, 1, 0),
