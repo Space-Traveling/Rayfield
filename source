@@ -3333,22 +3333,22 @@ function RayfieldLibrary:CreateWindow(Settings)
 			end)
 
 			function SliderSettings:Set(NewVal)
-				TweenService:Create(
-					Slider.Main.Progress,
-					TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
-					{ Size = UDim2.new(0, Current - Slider.Main.AbsolutePosition.X, 1, 0) }
-				):Play()
-				NewVal = math.floor(NewVal / SliderSettings.Increment + 0.5)
-					* (SliderSettings.Increment * 10000000)
-					/ 10000000
-				if not SliderSettings.Suffix then
-					Slider.Main.Information.Text = tostring(NewValue)
-				else
-					Slider.Main.Information.Text = tostring(NewValue) .. " " .. SliderSettings.Suffix
-				end
+				--[[TweenService:Create(
+							Slider.Main.Progress,
+							TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
+							{ Size = UDim2.new(0, Current - Slider.Main.AbsolutePosition.X, 1, 0) }
+						):Play()
+						NewVal = math.floor(NewVal / SliderSettings.Increment + 0.5)
+							* (SliderSettings.Increment * 10000000)
+							/ 10000000
+						if not SliderSettings.Suffix then
+							Slider.Main.Information.Text = tostring(NewValue)
+						else
+							Slider.Main.Information.Text = tostring(NewValue) .. " " .. SliderSettings.Suffix
+						end]]
 
 				--old
-				--[[TweenService
+				TweenService
 					:Create(Slider.Main.Progress, TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
 						Size = UDim2.new(
 							0,
@@ -3362,7 +3362,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 						),
 					})
 					:Play()
-				Slider.Main.Information.Text = tostring(NewVal) .. " " .. SliderSettings.Suffix]]
+				Slider.Main.Information.Text = tostring(NewVal) .. " " .. SliderSettings.Suffix
 				local Success, Response = pcall(function()
 					SliderSettings.Callback(NewVal)
 				end)
