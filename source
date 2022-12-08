@@ -3333,21 +3333,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 			end)
 
 			function SliderSettings:Set(NewVal)
-				--[[TweenService:Create(
-							Slider.Main.Progress,
-							TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
-							{ Size = UDim2.new(0, Current - Slider.Main.AbsolutePosition.X, 1, 0) }
-						):Play()
-						NewVal = math.floor(NewVal / SliderSettings.Increment + 0.5)
-							* (SliderSettings.Increment * 10000000)
-							/ 10000000
-						if not SliderSettings.Suffix then
-							Slider.Main.Information.Text = tostring(NewValue)
-						else
-							Slider.Main.Information.Text = tostring(NewValue) .. " " .. SliderSettings.Suffix
-						end]]
-
-				--old
 				TweenService
 					:Create(Slider.Main.Progress, TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
 						Size = UDim2.new(
@@ -3355,7 +3340,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 							Slider.Main.AbsoluteSize.X
 											* ((NewVal + SliderSettings.Range[1]) / (SliderSettings.Range[2] - SliderSettings.Range[1]))
 										> 5
-									and Slider.Main.AbsoluteSize.X * (NewVal / (SliderSettings.Range[2] - SliderSettings.Range[1]))
+									and Slider.Main.AbsoluteSize.X * ((NewVal + SliderSettings.Range[1]) / (SliderSettings.Range[2] - SliderSettings.Range[1]))
 								or 5,
 							1,
 							0
