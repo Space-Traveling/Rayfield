@@ -3191,10 +3191,12 @@ function RayfieldLibrary:CreateWindow(Settings)
 			local Start_Pixels = Slider.Main.AbsolutePosition.X
 			local End_Pixels = Slider.Main.AbsolutePosition.X + Slider.Main.AbsoluteSize.X
 
-			local sliderSize = End_Pixels
-				- Start_Pixels
-					* ((SliderSettings.CurrentValue + SliderSettings.Range[1]) / (SliderSettings.Range[2] - SliderSettings.Range[1]))
-					
+			local sliderSize = (End_Pixels - Start_Pixels)
+				* (
+					(SliderSettings.CurrentValue + SliderSettings.Range[1])
+					/ (SliderSettings.Range[2] - SliderSettings.Range[1])
+				)
+
 			if sliderSize < 5 then
 				sliderSize = 5
 			elseif sliderSize > End_Pixels - 5 then
